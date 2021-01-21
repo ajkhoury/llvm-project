@@ -2574,6 +2574,11 @@ defm strict_return : BoolFOption<"strict-return",
             " of a non-void function as unreachable">,
   ResetBy<PosFlag>>;
 
+defm force_emit_unreachable : BoolFOption<"force-emit-unreachable",
+  CodeGenOpts<"ForceEmitUnreachable">, DefaultsToFalse,
+  ChangedBy<PosFlag, [], "Force emits instructions that are unreachable">,
+  ResetBy<NegFlag>, BothFlags<[CoreOption]>>;
+
 def fenable_matrix : Flag<["-"], "fenable-matrix">, Group<f_Group>,
     Flags<[CC1Option]>,
     HelpText<"Enable matrix data type and related builtin functions">,

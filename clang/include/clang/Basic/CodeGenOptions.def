@@ -398,6 +398,9 @@ CODEGENOPT(EmbedSource, 1, 0)
 /// Whether to emit all vtables
 CODEGENOPT(ForceEmitVTables, 1, 0)
 
+/// Whether to force emit unreachable instructions
+CODEGENOPT(ForceEmitUnreachable, 1, 0)
+
 /// Whether to emit an address-significance table into the object file.
 CODEGENOPT(Addrsig, 1, 0)
 

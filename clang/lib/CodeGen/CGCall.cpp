@@ -5163,7 +5163,8 @@ RValue CodeGenFunction::EmitCall(const CGFunctionInfo &CallInfo,
       PopCleanupBlock();
 
     // Strip away the noreturn attribute to better diagnose unreachable UB.
-    if (SanOpts.has(SanitizerKind::Unreachable)) {
+    if (SanOpts.has(SanitizerKind::Unreachable) ||
+        CGM.getCodeGenOpts().ForceEmitUnreachable) {
       // Also remove from function since CallBase::hasFnAttr additionally checks
       // attributes of the called function.
       if (auto *F = CI->getCalledFunction())
@@ -5185,8 +5186,10 @@ RValue CodeGenFunction::EmitCall(const CGFunctionInfo &CallInfo,
       }
     }
 
-    EmitUnreachable(Loc);
-    Builder.ClearInsertionPoint();
+    if (!CGM.getCodeGenOpts().ForceEmitUnreachable) {
+      EmitUnreachable(Loc);
+      Builder.ClearInsertionPoint();
+    }
 
     // FIXME: For now, emit a dummy basic block because expr emitters in
     // generally are not ready to handle emitting expressions at unreachable
